@@ -9,10 +9,12 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false
             },
             name: {
-                type: DataTypes.STRING
+                type: DataTypes.STRING,
+                allowNull: false
             },
             email: {
-                type: DataTypes.STRING
+                type: DataTypes.STRING,
+                allowNull: false
             },
             password: {
                 type: DataTypes.STRING

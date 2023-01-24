@@ -1,9 +1,9 @@
 { 
   "development": {
-    "username": "sql6585018",
-    "password": "EX1VXGtfmh",
-    "database": "sql6585018",
-    "host": "sql6.freesqldatabase.com",
+    "username": "root",
+    "password": null,
+    "database": "apishop",
+    "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
@@ -17,6 +17,13 @@
     "username": "root",
     "password": null,
     "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "local": {
+    "username": "root",
+    "password": null,
+    "database": "apishop",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }

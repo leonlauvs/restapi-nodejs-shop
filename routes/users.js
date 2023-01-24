@@ -7,8 +7,36 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+router.get('/', async function (req, res, next) {
+  //res.send('respond with a resource');
+
+  let users = await Users.findAll();
+
+  return res.json({
+      status: 200,
+      message: "Success Show Users",
+      data: users
+  })
+
+});
+
+router.get("/:id", async function(req , res){
+
+  const id = req.params.id;
+  let users = await Users.findByPk(id);
+
+  if(!users){
+      return res.status(404).json({
+          status: 404,
+          message: "User not found",
+      })
+  }
+
+  return res.json({
+      status: 200,
+      message: `Success Show User with ID ${id}`,
+      data: users
+  })
 });
 
 router.post('/register', async (req, res) => {
@@ -95,6 +123,38 @@ router.post('/login', async (req, res) => {
       message: `Terjadi Error : ${error}`,
     });
   }
+});
+
+router.put("/edit/:id", async function(req , res){
+
+  const schema = {
+      name: { type: "string", empty:false },
+      email: { type: "string", empty:false }
+  }
+
+  const validate = v.validate(req.body, schema);
+
+  if(validate.length){
+      return res.status(422).json(validate);
+  }
+
+  const id = req.params.id;
+  let user = await Users.findByPk(id);
+
+  if(!user){
+      return res.status(404).json({
+          status: 404,
+          message: "User not found",
+      })
+  }
+
+  user = await user.update(req.body);
+
+  return res.json({
+      status: 200,
+      message: "Success Update User",
+      data: user
+  })
 });
   
   module.exports = router;

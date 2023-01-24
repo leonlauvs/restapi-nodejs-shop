@@ -4,7 +4,7 @@ const { Products } = require("../models");
 const validator = require("fastest-validator");
 const v = new validator();
 const verify = require('../middleware/verify');
-
+const { Op } = require("sequelize");
 // router.get("/", function(req , res, next){
 //     // res.send(`Belajar ${req.query.isi}`);
 //     res.send(`Belajar Node JS`);
@@ -12,7 +12,23 @@ const verify = require('../middleware/verify');
 
 router.get("/", verify, async function(req , res, next){
     // res.send(`Belajar ${req.query.isi}`);
-    let products = await Products.findAll();
+    let productName = req.query.productName
+
+    let products;// = await Products.findAll();
+
+    if (productName != null){
+        products = await Products.findAll({
+            where: {
+                name: {
+                    [Op.like]: `%${productName}%`
+                  }
+            }
+          });
+    }
+    else{
+        products = await Products.findAll();
+    }
+
 
     return res.json({
         status: 200,
